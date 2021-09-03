@@ -18,6 +18,10 @@ let point = {
   y: 500,
 };
 
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
 document.addEventListener("keydown", function (elem) {
   if (elem.keyCode == 37) {
     dy = 0;
