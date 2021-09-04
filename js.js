@@ -31,8 +31,8 @@ function loop() {
   snake.x += snake.dx;
   snake.y += snake.dy;
 
-  if (snake.x < 0 || snake.x > canvas.width) return YouLose(score);
-  else if (snake.y < 0 || snake.y > canvas.height) return YouLose(score);
+  if (snake.x < 0 || snake.x > canvas.width) return YouLose();
+  else if (snake.y < 0 || snake.y > canvas.height) return YouLose();
   snake.tail.unshift({ x: snake.x, y: snake.y });
   if (snake.tail.length > snake.maxTail) snake.tail.pop();
 
@@ -53,7 +53,7 @@ function loop() {
     field.fillRect(snake.tail[i].x, snake.tail[i].y, cell - 1, cell - 1);
 
     if (snake.x == snake.tail[i].x && snake.y == snake.tail[i].y)
-      return YouLose(score);
+      return YouLose();
   }
 }
 
@@ -73,9 +73,8 @@ document.addEventListener("keydown", function (elem) {
   }
 });
 
-function YouLose(score) {
-  alert(score);
-  score = 0;
+function YouLose() {
+  alert(`Your score ${score}`);
   snake = {
     x: 300,
     y: 300,
