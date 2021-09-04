@@ -45,6 +45,11 @@ function loop() {
 
   field.fillStyle = "yellow";
   field.fillRect(snake.x, snake.y, cell, cell);
+  if (snake.x == food.x && snake.y == food.y) {
+    snake.maxTail++;
+    food.x = getRandomInt(0, 30) * cell;
+    food.x = getRandomInt(0, 30) * cell;
+  }
 
   field.fillStyle = "green";
   for (let i = 1; i < snake.maxTail; i++) {
