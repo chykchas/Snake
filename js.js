@@ -3,19 +3,14 @@ let field = canvas.getContext("2d");
 
 let cell = 20;
 let count = 0;
+let score = 0;
 
 let snake = {
   x: 300,
   y: 300,
   dx: cell,
   dy: 0,
-  tail: [
-    { x: 0, y: 0 },
-    { x: 0, y: 0 },
-    { x: 0, y: 0 },
-    { x: 0, y: 0 },
-    { x: 0, y: 0 },
-  ],
+  tail: [],
   maxTail: 4,
 };
 
@@ -30,13 +25,14 @@ function loop() {
     return;
   }
   count = 0;
+
   field.clearRect(0, 0, canvas.width, canvas.height);
 
   snake.x += snake.dx;
   snake.y += snake.dy;
 
-  if (snake.x < 0 || snake.x > canvas.width) return YouLose();
-  else if (snake.y < 0 || snake.y > canvas.height) return YouLose();
+  if (snake.x < 0 || snake.x > canvas.width) return YouLose(score);
+  else if (snake.y < 0 || snake.y > canvas.height) return YouLose(score);
   snake.tail.unshift({ x: snake.x, y: snake.y });
   if (snake.tail.length > snake.maxTail) snake.tail.pop();
 
@@ -47,8 +43,9 @@ function loop() {
   field.fillRect(snake.x, snake.y, cell, cell);
   if (snake.x == food.x && snake.y == food.y) {
     snake.maxTail++;
+    score++;
     food.x = getRandomInt(0, 30) * cell;
-    food.x = getRandomInt(0, 30) * cell;
+    food.y = getRandomInt(0, 30) * cell;
   }
 
   field.fillStyle = "green";
@@ -56,7 +53,7 @@ function loop() {
     field.fillRect(snake.tail[i].x, snake.tail[i].y, cell - 1, cell - 1);
 
     if (snake.x == snake.tail[i].x && snake.y == snake.tail[i].y)
-      return YouLose();
+      return YouLose(score);
   }
 }
 
@@ -76,7 +73,9 @@ document.addEventListener("keydown", function (elem) {
   }
 });
 
-function YouLose() {
+function YouLose(score) {
+  alert(score);
+  score = 0;
   snake = {
     x: 300,
     y: 300,
@@ -90,6 +89,7 @@ function YouLose() {
     x: 500,
     y: 500,
   };
+  score = 0;
 }
 
 function getRandomInt(min, max) {
