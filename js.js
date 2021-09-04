@@ -9,7 +9,13 @@ let snake = {
   y: 300,
   dx: cell,
   dy: 0,
-  tail: [],
+  tail: [
+    { x: 0, y: 0 },
+    { x: 0, y: 0 },
+    { x: 0, y: 0 },
+    { x: 0, y: 0 },
+    { x: 0, y: 0 },
+  ],
   maxTail: 4,
 };
 
@@ -35,21 +41,18 @@ function loop() {
   if (snake.tail.length > snake.maxTail) snake.tail.pop();
 
   field.fillStyle = "red";
-  field.fillRect(food.x, food.y, cell - 1, cell - 1);
+  field.fillRect(food.x, food.y, cell, cell);
+
+  field.fillStyle = "yellow";
+  field.fillRect(snake.x, snake.y, cell, cell);
 
   field.fillStyle = "green";
-  snake.tail.forEach(function (tailCell, index) {
-    field.fillRect(tailCell.x, tailCell.y, cell - 1, cell - 1);
-    if (cell.x == food.x && cell.y == food.y) {
-      snake.maxTail++;
-      food.x = getRandomInt(0, 30) * cell;
-      food.y = getRandomInt(0, 30) * cell;
-    }
-    for (let i = index + 1; i < snake.cells.length; i++) {
-      if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y)
-        return YouLose();
-    }
-  });
+  for (let i = 1; i < snake.maxTail; i++) {
+    field.fillRect(snake.tail[i].x, snake.tail[i].y, cell - 1, cell - 1);
+
+    if (snake.x == snake.tail[i].x && snake.y == snake.tail[i].y)
+      return YouLose();
+  }
 }
 
 document.addEventListener("keydown", function (elem) {
